@@ -1,7 +1,6 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/nerdcommenter'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
@@ -13,32 +12,34 @@ Plug 'w0rp/ale'
 Plug 'bling/vim-airline'
 Plug 'majutsushi/tagbar'
 Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'valloric/youcompleteme'
-
+Plug 'heavenshell/vim-pydocstring'
+Plug 'morhetz/gruvbox'
 
 call plug#end()
 
 syntax on
+"set colorscheme
 
-"set colorscheme 
+let g:gruvbox_italic = 1
+let g:gruvbox_contrast_dark = 'hard'
+colorscheme gruvbox
+set termguicolors
 set background=dark
-let g:solarized_termcolors=256
-let g:solarized_termtrans=0
-colorscheme solarized
-
 filetype plugin indent on
 
 "set python
 let g:pymode_python = 'python3'
 set foldlevelstart=10
-" Use deoplete.
-let g:deoplete#enable_at_startup = 1
+nmap <silent> <C-p> <Plug>(pydocstring)
+let g:pymode_rope_lookup_project = 0
+
 set number  "set number
 set relativenumber  "set relative number
 "TAB setting=======================================
 "user spaces instead of tab
 set expandtab
+set softtabstop=4
 " Be smart when using tabs ;)
 set smarttab
 " 1 tab == 2 spaces
@@ -89,6 +90,7 @@ let g:airline#extensions#ale#enabled = 1
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 let g:ale_set_quickfix = 1
+let g:airline_powerline_fonts = 1
 
 
 "nerd tree toggle
@@ -98,19 +100,12 @@ let NERDTreeShowHidden=1
 "setup for js
 let g:javascript_plugin_jsdoc = 1
 
-"syntax highlight syntastic plugin
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
 "react jsx file
 let g:jsx_ext_required = 0
 
 " Shortcut to rapidly toggle `set list`
 nmap <leader>l :set list!<CR>
 
-" Use the same symbols as TextMate for tabstops and EOLs
-set listchars=tab:▸\ ,eol:¬
 
 "Toggle tagbar
 nmap <F8> :TagbarToggle<CR>
