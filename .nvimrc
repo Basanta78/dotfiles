@@ -126,3 +126,9 @@ nnoremap <F4> :NERDTreeFin;<CR>
 
 tnoremap <Leader><ESC> <C-\><C-n>
 
+set splitbelow splitright
+" Set vim default split 
+set splitbelow splitright
+"Copy and paste
+vnoremap <C-c> "+y
+map <C-v> +p
