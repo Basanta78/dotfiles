@@ -1,3 +1,4 @@
+
 call plug#begin('~/.config/nvim/plugins')
 " Eager loaded general plugins
 Plug 'w0rp/ale' 						   " Asynchronous linting framework
@@ -7,35 +8,36 @@ Plug 'Raimondi/delimitMate'					   " Insert mode parens/quotes autocompletion
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 " Language Specific lazy loaded plugins
 " JSX
-Plug 'mxw/vim-jsx', { 'for': ['javascript', 'typescript'] }	   " JSX support
+" Plug 'mxw/vim-jsx', { 'for': ['javascript', 'typescript'] }	   " JSX support
 Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'typescript'] }                                    " Autogenerate JSDoc
 " Javascript
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' } 	   " Javascript language syntax (also required by vim-jsx)
 " TypeScript
-Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }	   " TypeScript language syntax
-Plug 'mhartington/nvim-typescript', { 'for': 'typescript' }	   " TypeScript completion and intellisense
+" Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }	   " TypeScript language syntax
+" Plug 'mhartington/nvim-typescript', { 'for': 'typescript' }	   " TypeScript completion and intellisense
 
 Plug 'scrooloose/nerdcommenter'
-
 Plug 'heavenshell/vim-pydocstring'
 Plug 'bling/vim-airline'
 Plug 'jiangmiao/auto-pairs'
 Plug 'klen/python-mode'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-jedi' " autocompletion source
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'zchee/deoplete-jedi' " autocompletion source
 Plug 'davidhalter/jedi-vim'
 
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}  "Auto complete
 
 
 " Python 
 
 call plug#end()
 " deoplete.nvim, deoplete-jedi
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#jedi#show_docstring = 1
-let g:python3_host_prog  = '/usr/bin/python'
-let g:deoplete#enable_ignore_case = 1
-let g:deoplete#enable_smart_case = 1
+
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#sources#jedi#show_docstring = 1
+" let g:python3_host_prog  = '/usr/bin/python'
+" let g:deoplete#enable_ignore_case = 1
+" let g:deoplete#enable_smart_case = 1
 " Enable mouse support
 set mouse=a
 set hidden
@@ -93,9 +95,6 @@ map k gk
 " clear search highlighting
 noremap <silent> <leader>W :noh<cr>:call clearmatches()<cr>
 
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#file#enable_buffer_path = 1  " Relative path completion
-
 let g:ale_linters = {
       \   'javascript': ['eslint'],
       \   'typescript': ['tslint', 'tsserver'],
@@ -132,3 +131,46 @@ set splitbelow splitright
 "Copy and paste
 vnoremap <C-c> "+y
 map <C-v> +p
+nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+
+" #########################################33
+" Coc config"
+" "
+let g:coc_global_extensions=['coc-emoji', 'coc-eslint', 'coc-prettier', 'coc-tsserver', 'coc-tslint', 'coc-tslint-plugin','coc-css', 'coc-json', 'coc-pyls', 'coc-yaml', 'coc-python']
+
+
+" Better display for messages
+set cmdheight=2
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+" always show signcolumns
+set signcolumn=yes
+
+" Use `lp` and `ln` for navigate diagnostics
+nmap <silent> <leader>lp <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>ln <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> <leader>ld <Plug>(coc-definition)
+nmap <silent> <leader>lt <Plug>(coc-type-definition)
+nmap <silent> <leader>li <Plug>(coc-implementation)
+nmap <silent> <leader>lf <Plug>(coc-references)
+
+" Remap for rename current word
+nmap <leader>lr <Plug>(coc-rename)
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
