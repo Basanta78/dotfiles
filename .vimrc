@@ -2,38 +2,25 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'scrooloose/nerdcommenter'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'leafgarland/typescript-vim'
-Plug 'klen/python-mode'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
 Plug 'w0rp/ale'
 Plug 'bling/vim-airline'
 Plug 'majutsushi/tagbar'
-Plug 'roxma/nvim-yarp'
-Plug 'valloric/youcompleteme'
 Plug 'heavenshell/vim-pydocstring'
-Plug 'morhetz/gruvbox'
-
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'joshdick/onedark.vim'					   " Atom's OneDark Colorscheme
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'airblade/vim-gitgutter'
+Plug 'ryanoasis/vim-devicons'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'segeljakt/vim-silicon'
 call plug#end()
 
+"General Settings
+"====================================================================================
 syntax on
-"set colorscheme
-
-let g:gruvbox_italic = 1
-let g:gruvbox_contrast_dark = 'hard'
-colorscheme gruvbox
-set termguicolors
-set background=dark
-filetype plugin indent on
-
-"set python
-let g:pymode_python = 'python3'
-set foldlevelstart=10
-nmap <silent> <C-p> <Plug>(pydocstring)
-let g:pymode_rope_lookup_project = 0
-
+colorscheme onedark "set colorscheme
 set number  "set number
 set relativenumber  "set relative number
 "TAB setting=======================================
@@ -50,12 +37,10 @@ set ruler
 set cursorline
 
 set title
-" ========================================================================================
 " Make Vim to handle long lines nicely.
 set wrap
 set textwidth=79
 
-set laststatus=2
 set encoding=utf-8 "set encoding to utf-8
 set cursorline  " highlight current line
 set wildmenu " visual autocomplete for command menu
@@ -66,25 +51,18 @@ set incsearch           " search as characters are entered
 set hlsearch            " highlight matches
 set ignorecase
 
-set wrap "Wrap lines
-" Linebreak on 500 characters
-set lbr
-set tw=500
-
 set ai "Auto indent
 set si "Smart indent
 set autoread   "detect when file is changed"
+"====================================================================
+"NERDTREE config
+"nerd tree toggle
+map <C-n> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
 
-"Async linting ==================================================================
-let g:ale_fixers = {
-\   'javascript': ['eslint'],
-\}
-let g:ale_fix_on_save = 1 "fix file automatically on save
-" Enable completion where available.
-let g:ale_completion_enabled = 1
-let g:ale_sign_column_always = 1
-let g:ale_sign_error = '>>'
-let g:ale_sign_warning = '--'
+let g:loaded_netrw       = 1  "disable netrw plugin
+let g:loaded_netrwPlugin = 1
+"====================================================================
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
@@ -93,19 +71,6 @@ let g:ale_set_quickfix = 1
 let g:airline_powerline_fonts = 1
 
 
-"nerd tree toggle
-map <C-n> :NERDTreeToggle<CR>
-let NERDTreeShowHidden=1
-
-"setup for js
-let g:javascript_plugin_jsdoc = 1
-
-"react jsx file
-let g:jsx_ext_required = 0
-
 " Shortcut to rapidly toggle `set list`
 nmap <leader>l :set list!<CR>
 
-
-"Toggle tagbar
-nmap <F8> :TagbarToggle<CR>
