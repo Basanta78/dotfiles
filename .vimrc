@@ -23,6 +23,7 @@ syntax on
 colorscheme onedark "set colorscheme
 set number  "set number
 set relativenumber  "set relative number
+set pastetoggle=<F2>
 "TAB setting=======================================
 "user spaces instead of tab
 set expandtab
