@@ -1,11 +1,16 @@
 
 call plug#begin('~/.config/nvim/plugins')
 " Eager loaded general plugins
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'autozimu/LanguageClient-neovim'
 Plug 'w0rp/ale' 						   " Asynchronous linting framework
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-fugitive'					   " Git bindings
 Plug 'joshdick/onedark.vim'					   " Atom's OneDark Colorscheme
 Plug 'Raimondi/delimitMate'					   " Insert mode parens/quotes autocompletion
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
+"Plug 'lervag/vimtex'
+
 " Language Specific lazy loaded plugins
 " JSX
 " Plug 'mxw/vim-jsx', { 'for': ['javascript', 'typescript'] }	   " JSX support
@@ -24,13 +29,15 @@ Plug 'klen/python-mode'
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'zchee/deoplete-jedi' " autocompletion source
 Plug 'davidhalter/jedi-vim'
-
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}  "Auto complete
-
-
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'airblade/vim-gitgutter'
+Plug 'ryanoasis/vim-devicons'
 " Python 
 
 call plug#end()
+"coc_config
+let g:coc_global_extensions = ['coc-snippets','coc-pairs','coc-tsserver','coc-eslint','coc-prettier','coc-json']
 " deoplete.nvim, deoplete-jedi
 
 " let g:deoplete#enable_at_startup = 1
@@ -39,16 +46,38 @@ call plug#end()
 " let g:deoplete#enable_ignore_case = 1
 " let g:deoplete#enable_smart_case = 1
 " Enable mouse support
+" Better display for messages
 set mouse=a
 set hidden
+
+
+" Use tab for trigger completion with characters ahead and navigate.
+ inoremap <silent><expr> <TAB>
+       \ pumvisible() ? "\<C-n>" :
+             \ <SID>check_back_space() ? "\<TAB>" :
+                   \ coc#refresh()
+                   inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>""
+" Use `[g` and `]g` to navigate diagnostics
+ nmap <silent> [g <Plug>(coc-diagnostic-prev)
+ nmap <silent> ]g <Plug>(coc-diagnostic-next)
+"
+" " Remap keys for gotos
+ nmap <silent> gd <Plug>(coc-definition)
+ nmap <silent> gy <Plug>(coc-type-definition)
+ nmap <silent> gi <Plug>(coc-implementation)
+ nmap <silent> gr <Plug>(coc-references)
+"
+"" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>"
+" "
 
 let mapleader = " "
 
 "set python
-let g:pymode_python = 'python3'
+"let g:pymode_python = 'python3'
 set foldlevelstart=10
 nmap <silent> <C-p> <Plug>(pydocstring)
-let g:pymode_rope_lookup_project = 0
+"let g:pymode_rope_lookup_project = 0
 
 let g:onedark_terminal_italics= 1
 
@@ -121,9 +150,10 @@ map <C-n> :NERDTreeToggle<CR>
 
 let NERDTreeShowHidden=1
 nnoremap <F4> :NERDTreeFin;<CR>
-
-
 tnoremap <Leader><ESC> <C-\><C-n>
+
+let g:loaded_netrw       = 1  "disable netrw plugin
+let g:loaded_netrwPlugin = 1
 
 set splitbelow splitright
 " Set vim default split 
@@ -132,11 +162,6 @@ set splitbelow splitright
 vnoremap <C-c> "+y
 map <C-v> +p
 nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
-
-" #########################################33
-" Coc config"
-" "
-let g:coc_global_extensions=['coc-emoji', 'coc-eslint', 'coc-prettier', 'coc-tsserver', 'coc-tslint', 'coc-tslint-plugin','coc-css', 'coc-json', 'coc-pyls', 'coc-yaml', 'coc-python']
 
 
 " Better display for messages
@@ -148,29 +173,5 @@ set shortmess+=c
 " always show signcolumns
 set signcolumn=yes
 
-" Use `lp` and `ln` for navigate diagnostics
-nmap <silent> <leader>lp <Plug>(coc-diagnostic-prev)
-nmap <silent> <leader>ln <Plug>(coc-diagnostic-next)
-
-" Remap keys for gotos
-nmap <silent> <leader>ld <Plug>(coc-definition)
-nmap <silent> <leader>lt <Plug>(coc-type-definition)
-nmap <silent> <leader>li <Plug>(coc-implementation)
-nmap <silent> <leader>lf <Plug>(coc-references)
-
-" Remap for rename current word
-nmap <leader>lr <Plug>(coc-rename)
-
-" Use K for show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if &filetype == 'vim'
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+"let g:pymode_rope = 0
+let g:LanguageClient_serverCommands = {'python': ['/usr/local/bin/pyls']}
